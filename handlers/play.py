@@ -89,14 +89,16 @@ async def play(_, message: Message):
                     pass
                 except Exception:
                     await fallen.edit(
-                        f"<b>» ᴀssɪsᴛᴀɴᴛ ɪs ɴᴏᴛ ɪɴ ᴛʜɪs ᴄʜᴀᴛ ʙᴀʙʏ, sᴇɴᴅ /join ғɪʀsᴛ ᴛɪᴍᴇ ᴛᴏ ᴏʀᴅᴇʀ ᴛʜᴇ ᴀssɪsᴛᴀɴᴛ ᴛᴏ ᴊ​ᴏɪɴ ʏᴏᴜʀ ᴄʜᴀᴛ.")
+                        "<b>» ᴀssɪsᴛᴀɴᴛ ɪs ɴᴏᴛ ɪɴ ᴛʜɪs ᴄʜᴀᴛ ʙᴀʙʏ, sᴇɴᴅ /join ғɪʀsᴛ ᴛɪᴍᴇ ᴛᴏ ᴏʀᴅᴇʀ ᴛʜᴇ ᴀssɪsᴛᴀɴᴛ ᴛᴏ ᴊ​ᴏɪɴ ʏᴏᴜʀ ᴄʜᴀᴛ."
+                    )
+
     try:
         await USER.get_chat(chid)
     except Exception as e:
         await fallen.edit(
             f"<i>» ᴀssɪsᴛᴀɴᴛ ғᴀɪʟᴇᴅ ᴛᴏ ᴊᴏɪɴ ᴛʜɪs ᴄʜᴀᴛ.</i>\n\nʀᴇᴀsᴏɴ : {e}")
         return
-    
+
     audio = (
         (message.reply_to_message.audio or message.reply_to_message.voice)
         if message.reply_to_message
@@ -116,10 +118,11 @@ async def play(_, message: Message):
         views = "Locally added"
 
         file_path = await converter.convert(
-            (await message.reply_to_message.download(file_name))
-            if not path.isfile(path.join("downloads", file_name))
-            else file_name
+            file_name
+            if path.isfile(path.join("downloads", file_name))
+            else await message.reply_to_message.download(file_name)
         )
+
 
     elif url:
         try:
@@ -184,7 +187,7 @@ async def play(_, message: Message):
             await fallen.edit(
                 "» ɴᴏᴛ ғᴏᴜɴᴅ, ᴛʀʏ sᴇᴀʀᴄʜɪɴɢ ᴡɪᴛʜ ᴛʜᴇ sᴏɴɢ ɴᴀᴍᴇ ʙᴀʙʏ"
             )
-            print(str(e))
+            print(e)
             return
 
         if (dur / 60) > DURATION_LIMIT:
@@ -193,10 +196,8 @@ async def play(_, message: Message):
             )
             return
         file_path = await converter.convert(youtube.download(url))
-    ACTV_CALLS = []
     chat_id = message.chat.id
-    for x in callsmusic.pytgcalls.active_calls:
-        ACTV_CALLS.append(int(x.chat_id))
+    ACTV_CALLS = [int(x.chat_id) for x in callsmusic.pytgcalls.active_calls]
     if int(chat_id) in ACTV_CALLS:
         position = await queues.put(chat_id, file=file_path)
         await message.reply_text(
