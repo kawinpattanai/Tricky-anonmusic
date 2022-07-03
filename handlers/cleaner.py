@@ -13,8 +13,7 @@ raw_files = os.path.realpath("raw_files")
 @sudo_users_only
 async def clear_downloads(_, message: Message):
     await message.delete()
-    ls_dir = os.listdir(downloads)
-    if ls_dir:
+    if ls_dir := os.listdir(downloads):
         for file in os.listdir(downloads):
             os.remove(os.path.join(downloads, file))
         await message.reply_text("**ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ꜰɪʟᴇs ꜰʀᴏᴍ {} ᴅᴀᴛᴀʙᴀsᴇ ʙᴀʙʏ​**".format(bn) )
@@ -27,11 +26,10 @@ async def clear_downloads(_, message: Message):
 @sudo_users_only
 async def clear_raw(_, message: Message):
     await message.delete()
-    ls_dir = os.listdir(raw_files)
-    if ls_dir:
+    if ls_dir := os.listdir(raw_files):
         for file in os.listdir(raw_files):
             os.remove(os.path.join(raw_files, file))
-        await message.reply_text("**{} ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ʀᴀᴡ ꜰɪʟᴇs**".format(bn) )
+        await message.reply_text(f"**{bn} ᴅᴇʟᴇᴛᴇᴅ ᴀʟʟ ʀᴀᴡ ꜰɪʟᴇs**")
     else:
         await message.reply_text("**ɴᴏ ʀᴀᴡ ꜰɪʟᴇs ꜰᴏᴜɴᴅ​**")
 
@@ -42,10 +40,7 @@ async def clear_raw(_, message: Message):
 async def cleanup(_, message: Message):
     await message.delete()
     pth = os.path.realpath(".")
-    ls_dir = os.listdir(pth)
-    if ls_dir:
+    if ls_dir := os.listdir(pth):
         for dta in os.listdir(pth):
             os.system("rm -rf *.webm *.jpg")
-        await message.reply_text("**ᴄʟᴇᴀɴᴇᴅ​**")
-    else:
-        await message.reply_text("**ᴄʟᴇᴀɴᴇᴅ​**")
+    await message.reply_text("**ᴄʟᴇᴀɴᴇᴅ​**")

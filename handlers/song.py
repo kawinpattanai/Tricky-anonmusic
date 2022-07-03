@@ -18,13 +18,11 @@ def time_to_seconds(time):
 def song(client, message):
 
     message.delete()
-    user_id = message.from_user.id 
-    user_name = message.from_user.first_name 
-    chutiya = "["+user_name+"](tg://user?id="+str(user_id)+")"
+    user_id = message.from_user.id
+    user_name = message.from_user.first_name
+    chutiya = f"[{user_name}](tg://user?id={str(user_id)})"
 
-    query = ''
-    for i in message.command[1:]:
-        query += ' ' + str(i)
+    query = ''.join(f' {str(i)}' for i in message.command[1:])
     print(query)
     m = message.reply("🔎")
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
@@ -47,7 +45,7 @@ def song(client, message):
         m.edit(
             "» ɴᴏᴛ ғᴏᴜɴᴅ, ᴛʀʏ sᴇᴀʀᴄʜɪɴɢ ᴡɪᴛʜ ᴛʜᴇ sᴏɴɢ ɴᴀᴍᴇ."
         )
-        print(str(e))
+        print(e)
         return
     m.edit(f"» ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ sᴏɴɢ ꜰʀᴏᴍ {bn} sᴇʀᴠᴇʀ ʙᴀʙʏ​.")
     try:

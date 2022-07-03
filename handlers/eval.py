@@ -79,10 +79,11 @@ async def executor(client, message):
         )
         await message.reply_document(
             document=filename,
-            caption=f"**ɪɴᴩᴜᴛ:**\n`{cmd[0:980]}`\n\n**ᴏᴜᴛᴩᴜᴛ:**\n`ᴀᴛᴛᴀᴄʜᴇᴅ ᴅᴏᴄᴜᴍᴇɴᴛ`",
+            caption=f"**ɪɴᴩᴜᴛ:**\n`{cmd[:980]}`\n\n**ᴏᴜᴛᴩᴜᴛ:**\n`ᴀᴛᴛᴀᴄʜᴇᴅ ᴅᴏᴄᴜᴍᴇɴᴛ`",
             quote=False,
             reply_markup=keyboard,
         )
+
         await message.delete()
         os.remove(filename)
     else:
